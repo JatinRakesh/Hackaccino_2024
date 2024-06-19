@@ -2,17 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Minimal A-Frame Scene</title>
+    <title>A-Frame Scene with GLB Model</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <!-- Load the GLB model -->
       <a-assets>
         <a-asset-item id="sunmodel" src="https://raw.githubusercontent.com/JatinRakesh/Hackaccino_2024/main/Sun_1_1391000.glb"></a-asset-item>
       </a-assets>
       
-      <!-- Sun model entity -->
       <a-entity gltf-model="#sunmodel"></a-entity>
     </a-scene>
   </body>
