@@ -5,14 +5,15 @@
     <title>Shooting Gallery Game with Keyboard Input</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
-        <link rel="stylesheet" href="style.css">
-
   </head>
   <body>
     <a-scene environment="preset:starry">
       <!-- Camera and Lighting -->
       <a-entity position="0 1.6 0">
-        <a-camera look-controls></a-camera>
+        <a-camera look-controls>
+          <!-- Receptacle (Scope) -->
+          <a-ring id="receptacle" position="0 0 -2" rotation="-90 0 0" radius-inner="0.02" radius-outer="0.03" color="#FF0000" opacity="0.8"></a-ring>
+        </a-camera>
       </a-entity>
       <a-light type="ambient" color="#FFF"></a-light>
       <a-light type="point" position="2 4 4" intensity="0.5" color="#FFF"></a-light>
@@ -31,10 +32,7 @@
       <a-entity id="score" position="-3 3 -5" text="value: Score: 0; color: #FFFFFF; width: 5"></a-entity>
       
       <!-- Instructions -->
-      <a-entity position="0 2 -4" text="value: Use 'S' to shoot! Hit as many targets as you can!" scale="2 2 2"></a-entity>
-      
-      <!-- Receptacle (Shooting Circle) -->
-      <a-ring id="receptacle" position="0 1.6 -3" rotation="-90 0 0" radius-inner="0.2" radius-outer="0.3" color="#FF0000" opacity="0.5"></a-ring>
+      <a-entity position="0 2 -4" text="value: Use 'T' to shoot! Hit as many targets as you can!" scale="2 2 2"></a-entity>
       
       <!-- Event Listener for Keyboard Input -->
       <a-entity keyboard-listener></a-entity>
@@ -50,7 +48,7 @@
           var score = 0;
           
           sceneEl.addEventListener('keydown', function(event) {
-            if (event.key === 's' || event.key === 'S') {
+            if (event.key === 't' || event.key === 'T') {
               var bullet = document.createElement('a-sphere');
               bullet.setAttribute('position', receptacle.getAttribute('position'));
               bullet.setAttribute('radius', '0.1');
