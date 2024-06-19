@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Enhanced Shooting Gallery Game with Gun</title>
+    <title>Shooting Gallery Game with Keyboard Input</title>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
   </head>
@@ -17,9 +17,9 @@
       
       <!-- Shooting Gallery Targets -->
       <a-entity id="targets" position="0 1 -5" rotation="0 30 0">
-        <a-box id="target1" class="target" position="-2 1.5 -3" scale="0.5 0.5 0.5" color="#FFC65D" clickable animation__move="property: position; to: -2 2.5 -3; dir: alternate; dur: 1000; loop: true"></a-box>
-        <a-box id="target2" class="target" position="0 2 -5" scale="0.7 0.7 0.7" color="#EF2D5E" clickable animation__move="property: position; to: 0 3 -5; dir: alternate; dur: 1200; loop: true"></a-box>
-        <a-box id="target3" class="target" position="2 1 -3" scale="0.6 0.6 0.6" color="#4CC3D9" clickable animation__move="property: position; to: 2 3 -3; dir: alternate; dur: 1100; loop: true"></a-box>
+        <a-box id="target1" class="target" position="-2 1.5 -3" scale="0.5 0.5 0.5" color="#FFC65D" animation__move="property: position; to: -2 2.5 -3; dir: alternate; dur: 1000; loop: true"></a-box>
+        <a-box id="target2" class="target" position="0 2 -5" scale="0.7 0.7 0.7" color="#EF2D5E" animation__move="property: position; to: 0 3 -5; dir: alternate; dur: 1200; loop: true"></a-box>
+        <a-box id="target3" class="target" position="2 1 -3" scale="0.6 0.6 0.6" color="#4CC3D9" animation__move="property: position; to: 2 3 -3; dir: alternate; dur: 1100; loop: true"></a-box>
       </a-entity>
       
       <!-- Ground Plane -->
@@ -29,42 +29,44 @@
       <a-entity id="score" position="-3 3 -5" text="value: Score: 0; color: #FFFFFF; width: 5"></a-entity>
       
       <!-- Instructions -->
-      <a-entity position="0 2 -4" text="value: Click the gun to shoot bullets at targets! Hit as many as you can!" scale="2 2 2"></a-entity>
+      <a-entity position="0 2 -4" text="value: Use 'S' to shoot! Hit as many targets as you can!" scale="2 2 2"></a-entity>
       
-      <!-- Gun Model -->
-      <a-entity id="gun" position="0 1 -2" rotation="0 180 0" scale="0.5 0.5 0.5" gltf-model="url(https://cdn.jsdelivr.net/gh/JatinRakesh/Hackaccino_2024@main/Gun_1_1391000.glb)" clickable></a-entity>
+      <!-- Receptacle (Shooting Circle) -->
+      <a-ring id="receptacle" position="0 1.6 -3" rotation="-90 0 0" radius-inner="0.2" radius-outer="0.3" color="#FF0000" opacity="0.5"></a-ring>
       
-      <!-- Event Listener for Gun Clicks -->
-      <a-entity id="bullet-spawner"></a-entity>
+      <!-- Event Listener for Keyboard Input -->
+      <a-entity keyboard-listener></a-entity>
     </a-scene>
     
     <script>
-      AFRAME.registerComponent('cursor-listener', {
+      AFRAME.registerComponent('keyboard-listener', {
         init: function () {
-          var gun = document.querySelector('#gun');
-          var bulletSpawner = document.querySelector('#bullet-spawner');
+          var sceneEl = this.el.sceneEl;
+          var receptacle = document.querySelector('#receptacle');
           var targets = document.querySelectorAll('.target');
           var scoreDisplay = document.querySelector('#score');
           var score = 0;
           
-          gun.addEventListener('click', function() {
-            var bullet = document.createElement('a-sphere');
-            bullet.setAttribute('position', gun.getAttribute('position'));
-            bullet.setAttribute('radius', '0.1');
-            bullet.setAttribute('color', '#FF0000');
-            bullet.setAttribute('velocity', '0 0 -10'); // Adjust bullet speed as needed
-            bullet.setAttribute('dynamic-body', 'mass: 0.01');
-            bulletSpawner.appendChild(bullet);
-            
-            bullet.addEventListener('collide', function(event) {
-              if (event.detail.body.el.classList.contains('target')) {
-                event.detail.body.el.emit('shoot');
-                event.detail.body.el.parentNode.removeChild(event.detail.body.el);
-                score += 10;
-                scoreDisplay.setAttribute('text', 'value: Score: ' + score);
-                bullet.parentNode.removeChild(bullet);
-              }
-            });
+          sceneEl.addEventListener('keydown', function(event) {
+            if (event.key === 's' || event.key === 'S') {
+              var bullet = document.createElement('a-sphere');
+              bullet.setAttribute('position', receptacle.getAttribute('position'));
+              bullet.setAttribute('radius', '0.1');
+              bullet.setAttribute('color', '#FF0000');
+              bullet.setAttribute('velocity', '0 0 -10'); // Adjust bullet speed as needed
+              bullet.setAttribute('dynamic-body', 'mass: 0.01');
+              sceneEl.appendChild(bullet);
+              
+              bullet.addEventListener('collide', function(event) {
+                if (event.detail.body.el.classList.contains('target')) {
+                  event.detail.body.el.emit('shoot');
+                  event.detail.body.el.parentNode.removeChild(event.detail.body.el);
+                  score += 10;
+                  scoreDisplay.setAttribute('text', 'value: Score: ' + score);
+                  bullet.parentNode.removeChild(bullet);
+                }
+              });
+            }
           });
         }
       });
