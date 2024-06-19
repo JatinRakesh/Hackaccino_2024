@@ -10,16 +10,16 @@
       <a-entity environment="preset: starry"></a-entity>
       
       <!-- Sun using basic shapes -->
-      <a-entity position="0 2 -5">
+      <a-entity position="0 2 -5" scale="3 3 3">
         <!-- Sun's core -->
-        <a-sphere radius="1" color="#ffdd00"></a-sphere>
+        <a-sphere radius="1.5" color="#ffdd00"></a-sphere>
         
         <!-- Sun's rays -->
         <a-entity rotation="0 0 45">
-          <a-cylinder height="2" radius="0.1" position="1.5 0 0" color="#ffdd00"></a-cylinder>
-          <a-cylinder height="2" radius="0.1" position="-1.5 0 0" color="#ffdd00"></a-cylinder>
-          <a-cylinder height="2" radius="0.1" position="0 0 1.5" color="#ffdd00"></a-cylinder>
-          <a-cylinder height="2" radius="0.1" position="0 0 -1.5" color="#ffdd00"></a-cylinder>
+          <a-cylinder height="4" radius="0.2" position="3 0 0" color="#ffdd00"></a-cylinder>
+          <a-cylinder height="4" radius="0.2" position="-3 0 0" color="#ffdd00"></a-cylinder>
+          <a-cylinder height="4" radius="0.2" position="0 0 3" color="#ffdd00"></a-cylinder>
+          <a-cylinder height="4" radius="0.2" position="0 0 -3" color="#ffdd00"></a-cylinder>
         </a-entity>
       </a-entity>
       
