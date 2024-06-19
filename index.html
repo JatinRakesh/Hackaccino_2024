@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id = "sunmodel" src "https://jatinrakesh.github.io/Hackaccino_2024/"
+        ></a-asset-item>
+      </a-assets>
+      <a-entity gltf-model = "#sunmodel" scale = "0.2 0.4 0.6" position = "0 1 0"></a-entity>
+      <a-entity environment = "preset: starry"></a-entity>
+    </a-scene>
+  </body>
+</html>
