@@ -1,32 +1,32 @@
-<script>
-  AFRAME.registerComponent('keyboard-listener', {
-    init: function () {
-      var sceneEl = this.el.sceneEl;
-      var receptacle = document.querySelector('#receptacle');
-      var scoreDisplay = document.querySelector('#score');
-      var score = 0;
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My A-Frame Scene</title>
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Assets -->
+    <a-assets>
+      <a-asset-item id="sunmodel" src="path/to/your/model.glb"></a-asset-item>
+    </a-assets>
 
-      sceneEl.addEventListener('keydown', function(event) {
-        if (event.key === 't' || event.key === 'T') {
-          var bullet = document.createElement('a-sphere');
-          bullet.setAttribute('position', receptacle.getAttribute('position'));
-          bullet.setAttribute('radius', '0.1');
-          bullet.setAttribute('color', '#FF0000');
-          bullet.setAttribute('velocity', '0 0 -10'); // Adjust bullet speed as needed
-          bullet.setAttribute('dynamic-body', 'mass: 0.01');
-          sceneEl.appendChild(bullet);
+    <!-- Entities -->
+    <a-entity gltf-model="#sunmodel" scale="0.5 0.5 0.5" position="0 1.6 -3"></a-entity>
+    
+    <!-- Environment -->
+    <a-entity environment="preset: starry"></a-entity>
 
-          bullet.addEventListener('collide', function(event) {
-            if (event.detail.body.el.classList.contains('target')) {
-              event.detail.body.el.emit('shoot');
-              event.detail.body.el.parentNode.removeChild(event.detail.body.el);
-              score += 10;
-              scoreDisplay.setAttribute('text', 'value: Score: ' + score);
-              bullet.parentNode.removeChild(bullet);
-            }
-          });
-        }
-      });
-    }
-  });
-</script>
+    <!-- Lights -->
+    <a-light type="ambient" color="#888"></a-light>
+    <a-light type="directional" position="-1 1 0" intensity="1"></a-light>
+
+    <!-- Camera -->
+    <a-camera position="0 1.6 3">
+      <a-cursor></a-cursor>
+    </a-camera>
+  </a-scene>
+</body>
+</html>
