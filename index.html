@@ -1,75 +1,32 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Shooting Gallery Game with Keyboard Input</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
-  </head>
-  <body>
-    <a-scene environment="preset:starry">
-      <!-- Camera and Lighting -->
-      <a-entity position="0 1.6 0">
-        <a-camera look-controls>
-          <!-- Receptacle (Scope) -->
-          <a-ring id="receptacle" position="0 0 -2" rotation="-90 0 0" radius-inner="0.02" radius-outer="0.03" color="#FF0000" opacity="0.8"></a-ring>
-        </a-camera>
-      </a-entity>
-      <a-light type="ambient" color="#FFF"></a-light>
-      <a-light type="point" position="2 4 4" intensity="0.5" color="#FFF"></a-light>
-      
-      <!-- Shooting Gallery Targets -->
-      <a-entity id="targets" position="0 1 -5" rotation="0 30 0">
-        <a-box id="target1" class="target" position="-2 1.5 -3" scale="0.5 0.5 0.5" color="#FFC65D" animation__move="property: position; to: -2 2.5 -3; dir: alternate; dur: 1000; loop: true"></a-box>
-        <a-box id="target2" class="target" position="0 2 -5" scale="0.7 0.7 0.7" color="#EF2D5E" animation__move="property: position; to: 0 3 -5; dir: alternate; dur: 1200; loop: true"></a-box>
-        <a-box id="target3" class="target" position="2 1 -3" scale="0.6 0.6 0.6" color="#4CC3D9" animation__move="property: position; to: 2 3 -3; dir: alternate; dur: 1100; loop: true"></a-box>
-      </a-entity>
-      
-      <!-- Ground Plane -->
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="20" height="20" color="#7BC8A4"></a-plane>
-      
-      <!-- Score Display -->
-      <a-entity id="score" position="-3 3 -5" text="value: Score: 0; color: #FFFFFF; width: 5"></a-entity>
-      
-      <!-- Instructions -->
-      <a-entity position="0 2 -4" text="value: Use 'T' to shoot! Hit as many targets as you can!" scale="2 2 2"></a-entity>
-      
-      <!-- Event Listener for Keyboard Input -->
-      <a-entity keyboard-listener></a-entity>
-    </a-scene>
-    
-    <script>
-      AFRAME.registerComponent('keyboard-listener', {
-        init: function () {
-          var sceneEl = this.el.sceneEl;
-          var receptacle = document.querySelector('#receptacle');
-          var targets = document.querySelectorAll('.target');
-          var scoreDisplay = document.querySelector('#score');
-          var score = 0;
-          
-          sceneEl.addEventListener('keydown', function(event) {
-            if (event.key === 't' || event.key === 'T') {
-              var bullet = document.createElement('a-sphere');
-              bullet.setAttribute('position', receptacle.getAttribute('position'));
-              bullet.setAttribute('radius', '0.1');
-              bullet.setAttribute('color', '#FF0000');
-              bullet.setAttribute('velocity', '0 0 -10'); // Adjust bullet speed as needed
-              bullet.setAttribute('dynamic-body', 'mass: 0.01');
-              sceneEl.appendChild(bullet);
-              
-              bullet.addEventListener('collide', function(event) {
-                if (event.detail.body.el.classList.contains('target')) {
-                  event.detail.body.el.emit('shoot');
-                  event.detail.body.el.parentNode.removeChild(event.detail.body.el);
-                  score += 10;
-                  scoreDisplay.setAttribute('text', 'value: Score: ' + score);
-                  bullet.parentNode.removeChild(bullet);
-                }
-              });
+<script>
+  AFRAME.registerComponent('keyboard-listener', {
+    init: function () {
+      var sceneEl = this.el.sceneEl;
+      var receptacle = document.querySelector('#receptacle');
+      var scoreDisplay = document.querySelector('#score');
+      var score = 0;
+
+      sceneEl.addEventListener('keydown', function(event) {
+        if (event.key === 't' || event.key === 'T') {
+          var bullet = document.createElement('a-sphere');
+          bullet.setAttribute('position', receptacle.getAttribute('position'));
+          bullet.setAttribute('radius', '0.1');
+          bullet.setAttribute('color', '#FF0000');
+          bullet.setAttribute('velocity', '0 0 -10'); // Adjust bullet speed as needed
+          bullet.setAttribute('dynamic-body', 'mass: 0.01');
+          sceneEl.appendChild(bullet);
+
+          bullet.addEventListener('collide', function(event) {
+            if (event.detail.body.el.classList.contains('target')) {
+              event.detail.body.el.emit('shoot');
+              event.detail.body.el.parentNode.removeChild(event.detail.body.el);
+              score += 10;
+              scoreDisplay.setAttribute('text', 'value: Score: ' + score);
+              bullet.parentNode.removeChild(bullet);
             }
           });
         }
       });
-    </script>
-  </body>
-</html>
+    }
+  });
+</script>
