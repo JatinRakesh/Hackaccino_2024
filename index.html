@@ -7,11 +7,15 @@
   <body>
     <a-scene>
       <a-assets>
-        <!-- Direct link to the raw GLB file on GitHub -->
+        <!-- Using jsDelivr CDN for direct access -->
         <a-asset-item id="sunmodel" src="https://cdn.jsdelivr.net/gh/JatinRakesh/Hackaccino_2024@main/Sun_1_1391000.glb"></a-asset-item>
       </a-assets>
-      <a-entity gltf-model="#sunmodel" scale="0.2 0.4 0.6" position="0 1 0"></a-entity>
+      <a-entity gltf-model="#sunmodel" scale="1 1 1" position="0 1.6 -3"></a-entity>
       <a-entity environment="preset: starry"></a-entity>
+      <!-- Camera for better view -->
+      <a-camera position="0 1.6 0">
+        <a-cursor></a-cursor>
+      </a-camera>
     </a-scene>
   </body>
 </html>
