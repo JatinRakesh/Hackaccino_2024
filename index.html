@@ -7,15 +7,23 @@
   <body>
     <a-scene>
       <a-assets>
-        <!-- Direct link to the raw GLB file on GitHub -->
+        <!-- Loading the GLB model -->
         <a-asset-item id="sunmodel" src="https://cdn.jsdelivr.net/gh/JatinRakesh/Hackaccino_2024@main/Sun_1_1391000.glb"></a-asset-item>
       </a-assets>
+      
+      <!-- Adding the sun model to the scene -->
       <a-entity gltf-model="#sunmodel" scale="0.5 0.5 0.5" position="0 1.6 -3"></a-entity>
+      
+      <!-- Environment component for the background -->
       <a-entity environment="preset: starry"></a-entity>
-      <!-- Adding a light to illuminate the model -->
+      
+      <!-- Ambient light for overall illumination -->
       <a-light type="ambient" color="#888"></a-light>
+      
+      <!-- Directional light to light up the model -->
       <a-light type="directional" position="-1 1 0" intensity="1"></a-light>
-      <!-- Adding a camera to view the model -->
+      
+      <!-- Camera to view the scene -->
       <a-camera position="0 1.6 3">
         <a-cursor></a-cursor>
       </a-camera>
